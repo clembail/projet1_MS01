@@ -5,8 +5,8 @@
 #include <algorithm>
 
 const int N = 100;             // points intérieurs
-const double TOL = 1e-6;
-const int MAX_ITER = 10000;
+const double TOLERANCE = 1e-6;
+const int MAX_ITERATION = 10000;
 
 int main(int argc, char** argv) {
     MPI_Init(&argc, &argv);
@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    int iter = 0;
+    int iteration = 0;
     double global_diff;
 
     do {
@@ -78,12 +78,12 @@ int main(int argc, char** argv) {
 
         // 4. Mise à jour
         std::swap(u, u_new);
-        ++iter;
+        ++iteration;
 
-    } while (global_diff > TOL && iter < MAX_ITER);
+    } while (global_diff > TOLERANCE && iteration < MAX_ITERATION);
 
     if (rank == 0) {
-        std::cout << "Converged in " << iter << " iterations with diff = " << global_diff << std::endl;
+        std::cout << "Converged in " << iteration << " iterations with diff = " << global_diff << std::endl;
     }
 
     MPI_Finalize();
