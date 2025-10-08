@@ -1,3 +1,5 @@
+// pour exécuter : ./build/seq
+
 #include <iostream>
 #include <vector>
 #include <cmath>

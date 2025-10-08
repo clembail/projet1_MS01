@@ -1,23 +1,26 @@
 cmake_minimum_required(VERSION 3.10...3.13)
 project(cholesky)
 
-# Cherche la bibliothèque MPI
 find_package(MPI REQUIRED)
 
-# Exécutable
-add_executable(main source/main.cpp source/jacobi_seq.cpp)
+# === Test Jacobi ===
+add_executable(test_jacobi source/test_jacobi.cpp)
+target_include_directories(test_jacobi PRIVATE include)
+target_compile_features(test_jacobi PRIVATE cxx_std_17)
+target_compile_options(test_jacobi PRIVATE -Wall -fsanitize=address)
+target_link_options(test_jacobi PRIVATE -fsanitize=address)
 
-# Inclut les headers
-target_include_directories(main PRIVATE include ${MPI_INCLUDE_PATH})
+# === Test Gauss-Seidel ===
+add_executable(test_gauss_seidel source/test_gauss_seidel.cpp)
+target_include_directories(test_gauss_seidel PRIVATE include)
+target_compile_features(test_gauss_seidel PRIVATE cxx_std_17)
+target_compile_options(test_gauss_seidel PRIVATE -Wall -fsanitize=address)
+target_link_options(test_gauss_seidel PRIVATE -fsanitize=address)
 
-# Active le standard C++17
-target_compile_features(main PRIVATE cxx_std_17)
-
-# Options de compilation
-target_compile_options(main PRIVATE -Wall -fsanitize=address ${MPI_CXX_COMPILE_FLAGS})
-
-# Options d’édition de liens
-target_link_options(main PRIVATE -fsanitize=address ${MPI_CXX_LINK_FLAGS})
-
-# Lie avec MPI
-target_link_libraries(main PRIVATE ${MPI_CXX_LIBRARIES})
+# === Exécutable 2 (version MPI) ===
+add_executable(mpi source/test_jacobi_para.cpp)
+target_include_directories(mpi PRIVATE include ${MPI_INCLUDE_PATH})
+target_compile_features(mpi PRIVATE cxx_std_17)
+target_compile_options(mpi PRIVATE -Wall -fsanitize=address ${MPI_CXX_COMPILE_FLAGS})
+target_link_options(mpi PRIVATE -fsanitize=address ${MPI_CXX_LINK_FLAGS})
+target_link_libraries(mpi PRIVATE ${MPI_CXX_LIBRARIES})

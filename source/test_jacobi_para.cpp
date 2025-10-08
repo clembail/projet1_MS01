@@ -1,3 +1,5 @@
+// pour exécuter : mpirun -np 4 ./build/mpi
+
 #include <mpi.h>
 #include <iostream>
 #include <vector>
