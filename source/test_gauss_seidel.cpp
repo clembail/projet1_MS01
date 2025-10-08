@@ -78,7 +78,7 @@ int main() {
         std::cout << "\n";
     }
 
-    std::ofstream file("/Users/paul/OneDrive - ENSTA Paris/Ensta_onedrive/3A/MPI/data_gauss_seidel.csv");
+    std::ofstream file("data_gauss_seidel.csv");
     for(int i = 0; i<=Nx+1 ; i++){
         for(int j = 0; j<=Ny+1 ; j++){
             file << u[i][j];

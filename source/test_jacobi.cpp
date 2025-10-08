@@ -81,7 +81,7 @@ int main() {
 
     cout << "Converged after " << iter << " iterations with error = " << error << endl;
 
-    std::ofstream file("/Users/paul/OneDrive - ENSTA Paris/Ensta_onedrive/3A/MPI/data_jacobi.csv");
+    std::ofstream file("data_jacobi.csv");
     for(int i = 0; i<=Nx+1 ; i++){
         for(int j = 0; j<=Ny+1 ; j++){
             file << u[i][j];
