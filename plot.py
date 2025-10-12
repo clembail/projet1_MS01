@@ -4,9 +4,9 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 a = 1.0
 b = 1.0
-Nx = 50
-Ny = 50
-data = "data_jacobi.csv"
+Nx = 100
+Ny = 98
+data = "data_jacobi_para.csv"
 
 Z = np.loadtxt(data, delimiter=",")
 print(Z)

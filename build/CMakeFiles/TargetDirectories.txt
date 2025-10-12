@@ -1,5 +1,0 @@
-/Users/clementbaillet/Cours/ams/MS01CalculParallele/projet1_MS01/build/CMakeFiles/test_jacobi.dir
-/Users/clementbaillet/Cours/ams/MS01CalculParallele/projet1_MS01/build/CMakeFiles/test_gauss_seidel.dir
-/Users/clementbaillet/Cours/ams/MS01CalculParallele/projet1_MS01/build/CMakeFiles/mpi.dir
-/Users/clementbaillet/Cours/ams/MS01CalculParallele/projet1_MS01/build/CMakeFiles/edit_cache.dir
-/Users/clementbaillet/Cours/ams/MS01CalculParallele/projet1_MS01/build/CMakeFiles/rebuild_cache.dir

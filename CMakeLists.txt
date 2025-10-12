@@ -4,23 +4,31 @@ project(cholesky)
 find_package(MPI REQUIRED)
 
 # === Test Jacobi ===
-add_executable(test_jacobi source/test_jacobi.cpp)
-target_include_directories(test_jacobi PRIVATE include)
-target_compile_features(test_jacobi PRIVATE cxx_std_17)
-target_compile_options(test_jacobi PRIVATE -Wall -fsanitize=address)
-target_link_options(test_jacobi PRIVATE -fsanitize=address)
+add_executable(jacobi source/jacobi.cpp)
+target_include_directories(jacobi PRIVATE include)
+target_compile_features(jacobi PRIVATE cxx_std_17)
+target_compile_options(jacobi PRIVATE -Wall -fsanitize=address)
+target_link_options(jacobi PRIVATE -fsanitize=address)
 
 # === Test Gauss-Seidel ===
-add_executable(test_gauss_seidel source/test_gauss_seidel.cpp)
-target_include_directories(test_gauss_seidel PRIVATE include)
-target_compile_features(test_gauss_seidel PRIVATE cxx_std_17)
-target_compile_options(test_gauss_seidel PRIVATE -Wall -fsanitize=address)
-target_link_options(test_gauss_seidel PRIVATE -fsanitize=address)
+add_executable(gauss-seidel source/gauss-seidel.cpp)
+target_include_directories(gauss-seidel PRIVATE include)
+target_compile_features(gauss-seidel PRIVATE cxx_std_17)
+target_compile_options(gauss-seidel PRIVATE -Wall -fsanitize=address)
+target_link_options(gauss-seidel PRIVATE -fsanitize=address)
 
-# === Exécutable 2 (version MPI) ===
-add_executable(mpi source/test_jacobi_para.cpp)
-target_include_directories(mpi PRIVATE include ${MPI_INCLUDE_PATH})
-target_compile_features(mpi PRIVATE cxx_std_17)
-target_compile_options(mpi PRIVATE -Wall -fsanitize=address ${MPI_CXX_COMPILE_FLAGS})
-target_link_options(mpi PRIVATE -fsanitize=address ${MPI_CXX_LINK_FLAGS})
-target_link_libraries(mpi PRIVATE ${MPI_CXX_LIBRARIES})
+# === Test Jacobi parallélisé ===
+add_executable(jacobi_para source/jacobi_para.cpp)
+target_include_directories(jacobi_para PRIVATE include ${MPI_INCLUDE_PATH})
+target_compile_features(jacobi_para PRIVATE cxx_std_17)
+target_compile_options(jacobi_para PRIVATE -Wall -fsanitize=address ${MPI_CXX_COMPILE_FLAGS})
+target_link_options(jacobi_para PRIVATE -fsanitize=address ${MPI_CXX_LINK_FLAGS})
+target_link_libraries(jacobi_para PRIVATE ${MPI_CXX_LIBRARIES})
+
+# === Test Gauss-Seidel parallélisé ===
+add_executable(gauss-seidel_para source/gauss-seidel_para.cpp)
+target_include_directories(gauss-seidel_para PRIVATE include ${MPI_INCLUDE_PATH})
+target_compile_features(gauss-seidel_para PRIVATE cxx_std_17)
+target_compile_options(gauss-seidel_para PRIVATE -Wall -fsanitize=address ${MPI_CXX_COMPILE_FLAGS})
+target_link_options(gauss-seidel_para PRIVATE -fsanitize=address ${MPI_CXX_LINK_FLAGS})
+target_link_libraries(gauss-seidel_para PRIVATE ${MPI_CXX_LIBRARIES})

@@ -1,0 +1,9 @@
+# Ignorer les dossiers de build
+build/
+buildClem/
+buildPaul/
+build*/
+/*build/
+
+# Ignorer les fichiers de configuration de VSCode/VSCodium
+.vscode/
