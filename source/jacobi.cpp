@@ -7,8 +7,8 @@
 
 using namespace std;
 
-const int Nx = 50;       // Nombre de points intérieurs en x
-const int Ny = 50;       // Nombre de points intérieurs en y
+const int Nx = 100;       // Nombre de points intérieurs en x
+const int Ny = 100;       // Nombre de points intérieurs en y
 const int maxIter = 10000;
 const double tol = 1e-6;
 const double alpha = 0.5;
