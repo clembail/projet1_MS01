@@ -32,3 +32,5 @@ target_compile_features(gauss-seidel_para PRIVATE cxx_std_17)
 target_compile_options(gauss-seidel_para PRIVATE -Wall -fsanitize=address ${MPI_CXX_COMPILE_FLAGS})
 target_link_options(gauss-seidel_para PRIVATE -fsanitize=address ${MPI_CXX_LINK_FLAGS})
 target_link_libraries(gauss-seidel_para PRIVATE ${MPI_CXX_LIBRARIES})
+
+# test
