@@ -7,3 +7,6 @@ build*/
 
 # Ignorer les fichiers de configuration de VSCode/VSCodium
 .vscode/
+
+# Ignorer le CMakeLists.txt
+CMakeLists.txt
