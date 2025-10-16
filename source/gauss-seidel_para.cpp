@@ -41,6 +41,9 @@ int main(int argc, char** argv) {
     const double dx = a / (Nx + 1);
     const double dy = b / (Ny + 1);
 
+    MPI_Barrier(MPI_COMM_WORLD);
+    double time1 = MPI_Wtime();
+
     // Découpe du domaine
     int nloc = nrows_global / size;
     int remainder = nrows_global % size;
@@ -206,6 +209,11 @@ int main(int argc, char** argv) {
         file.close();
         std::cout << "Résultat écrit dans " + pathData << std::endl;
     }
+
+    MPI_Barrier(MPI_COMM_WORLD);
+    double time2 = MPI_Wtime();
+
+    if(rank == 0) std::cout << "Duration: " << time2-time1 << std::endl;
 
     MPI_Finalize();
     return 0;
