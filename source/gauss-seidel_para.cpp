@@ -1,4 +1,4 @@
-// pour exécuter : mpirun -np 4 ./buildPrenom/jacobi_para
+// pour exécuter : mpirun -np 4 ./buildPrenom/gauss-seidel_para
 
 #include <mpi.h>
 #include <iostream>
@@ -20,12 +20,12 @@ double V(double y){
 }
 
 double u0(double x, double y) {
-    // Condition au bord, ici u0 = 1
+    double U0 = 1.0;
     if (x==0){
-        return 1.0*(1.0 + alpha*V(y));
+        return U0*(1.0 + alpha*V(y));
     }
 
-    return 1.0;
+    return U0;
 }
 
 int main(int argc, char** argv) {
@@ -131,11 +131,6 @@ int main(int argc, char** argv) {
         }
 
         // 2. MISE A JOUR DES BOULES NOIRES
-        // double local_diff = 0.0;
-        // int i_start = start_idx_loc;
-        // int i_end = start_idx_loc + nloc;
-        // if (rank == 0) i_start++;
-        // if (rank == size - 1) i_end--;
 
         for (int i = i_start; i < i_end; ++i) {
             for (int j = 1; j <= Ny; ++j) {

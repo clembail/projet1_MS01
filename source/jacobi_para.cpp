@@ -20,12 +20,12 @@ double V(double y){
 }
 
 double u0(double x, double y) {
-    // Condition au bord, ici u0 = 1
+    double U0 = 1.0;
     if (x==0){
-        return 1.0*(1.0 + alpha*V(y));
+        return U0*(1.0 + alpha*V(y));
     }
 
-    return 1.0;
+    return U0;
 }
 
 int main(int argc, char** argv) {
