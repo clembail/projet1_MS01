@@ -10,7 +10,7 @@
 const int Nx = 50;             // points intérieurs
 const int Ny = 50;
 const double TOLERANCE = 1e-6;
-const int MAX_ITERATION = 10000;
+const int MAX_ITERATION = 5000;
 const double alpha = 0.5;
 const double a = 1.0;
 const double b = 1.0;
@@ -190,7 +190,7 @@ int main(int argc, char** argv) {
     MPI_Barrier(MPI_COMM_WORLD);
     double time2 = MPI_Wtime();
 
-    if(rank == 0) std::cout << "Duration: " << time2-time1 << std::endl;
+    if(rank == 0) std::cout << "Duration: " << time2-time1 << "[s]" << std::endl;
 
     MPI_Finalize();
     return 0;

@@ -4,12 +4,13 @@
 #include <vector>
 #include <cmath>
 #include <fstream>
+#include <chrono>
 
 using namespace std;
 
-const int Nx = 100;       // Nombre de points intérieurs en x
-const int Ny = 100;       // Nombre de points intérieurs en y
-const int maxIter = 10000;
+const int Nx = 50;       // Nombre de points intérieurs en x
+const int Ny = 50;       // Nombre de points intérieurs en y
+const int maxIter = 5000;
 const double tol = 1e-6;
 const double alpha = 0.5;
 
@@ -27,8 +28,11 @@ double u0(double x, double y) {
 }
 
 int main() {
+
     double dx = 1.0 / (Nx + 1);
     double dy = 1.0 / (Ny + 1);
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     // Matrices pour les itérations de Jacobi
     vector<vector<double>> u(Nx + 2, vector<double>(Ny + 2, 0.0));
@@ -76,8 +80,8 @@ int main() {
 
         iter++;
 
-        if (iter % 100 == 0)
-            cout << "Iteration " << iter << ", error = " << error << endl;
+        // if (iter % 100 == 0)
+        //     cout << "Iteration " << iter << ", error = " << error << endl;
 
     } while (error > tol && iter < maxIter);
 
@@ -91,6 +95,11 @@ int main() {
         }
         file << "\n";
     }
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
+
+    std::cout << "Time difference = " << duration*0.000001 << "[s]" << std::endl;
 
     return 0;
 }

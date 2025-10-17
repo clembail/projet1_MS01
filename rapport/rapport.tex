@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage[a4paper, margin=3cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{derivative}
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{listingsutf8}
+\usepackage{graphicx}
+
+\tcbset{
+  promptbox/.style={
+    enhanced,
+    colback=blue!5,
+    colframe=blue!60!black,
+    boxrule=0.8pt,
+    arc=3mm,
+    left=6pt,
+    right=6pt,
+    top=6pt,
+    bottom=6pt,
+    fonttitle=\bfseries,
+    title=Prompt,
+  }
+}
+
+% Style listings pour Python
+\lstdefinestyle{mypython}{
+    language=Python,
+    backgroundcolor=\color{gray!10},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    stringstyle=\color{orange},
+    commentstyle=\color{green!50!black},
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    frame=none
+}
+
+% Boîte pour code Python
+\newtcblisting{pythonbox}{
+  listing only,
+  listing options={style=mypython},
+  colback=gray!10,
+  colframe=blue!50!black,
+  boxrule=0.5pt,
+  arc=3mm,
+  left=5pt,
+  right=5pt,
+  top=5pt,
+  bottom=5pt
+}
+
+\title{Projet 1 : MS01}
+\author{Clément Baillet et Paul Michel}
+\date{}
+
+\begin{document}
+\maketitle
+
+\end{document}

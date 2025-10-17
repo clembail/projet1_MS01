@@ -7,7 +7,7 @@
 
 const int Nx = 50;       // Nombre de points intérieurs en x
 const int Ny = 50;       // Nombre de points intérieurs en y
-const int maxIter = 10000;
+const int maxIter = 5000;
 const double tol = 1e-6;
 const double alpha = 0.5;
 
@@ -27,6 +27,8 @@ double u0(double x, double y) {
 int main() {
     double dx = 1.0 / (Nx + 1);
     double dy = 1.0 / (Ny + 1);
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
     double dx2 = dx * dx;
     double dy2 = dy * dy;
@@ -72,14 +74,6 @@ int main() {
 
     std::cout << "Convergence en " << iter << " iterations, avec diff = " << diff << "\n";
 
-    // Affichage d'une partie de la solution (optionnel)
-    for (int i = 0; i <= Nx + 1; i += Nx/10) {
-        for (int j = 0; j <= Ny + 1; j += Ny/10) {
-            std::cout << u[i][j] << " ";
-        }
-        std::cout << "\n";
-    }
-
     std::ofstream file("data_gauss_seidel.csv");
     for(int i = 0; i<=Nx+1 ; i++){
         for(int j = 0; j<=Ny+1 ; j++){
@@ -88,6 +82,11 @@ int main() {
         }
         file << "\n";
     }
+
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
+
+    std::cout << "Time difference = " << duration*0.000001 << "[s]" << std::endl;
 
     return 0;
 }

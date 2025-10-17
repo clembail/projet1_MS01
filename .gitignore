@@ -10,3 +10,11 @@ build*/
 
 # Ignorer le CMakeLists.txt
 CMakeLists.txt
+
+# Rapport TeX
+rapport.pdf
+rapport.aux
+rapport.fdb_latexmk
+rapport.fls
+rapport.log
+rapport.synctex.gz

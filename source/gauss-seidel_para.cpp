@@ -213,7 +213,7 @@ int main(int argc, char** argv) {
     MPI_Barrier(MPI_COMM_WORLD);
     double time2 = MPI_Wtime();
 
-    if(rank == 0) std::cout << "Duration: " << time2-time1 << std::endl;
+    if(rank == 0) std::cout << "Duration: " << time2-time1 << "[s]" << std::endl;
 
     MPI_Finalize();
     return 0;
