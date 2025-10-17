@@ -5,14 +5,14 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 a = 1.0
 b = 1.0
 Nx = 50
-Ny = 50
-data = "data_jacobi_para.csv"
+Ny = 100
+data = "data_gauss-seidel_para.csv"
 
 Z = np.loadtxt(data, delimiter=",")
 print(Z)
 
-x = np.linspace(0,a,Nx+2)
-y = np.linspace(0,b,Ny+2)
+y = np.linspace(0,b,Nx+2)
+x = np.linspace(0,a,Ny+2)
 X,Y = np.meshgrid(x,y)
 
 

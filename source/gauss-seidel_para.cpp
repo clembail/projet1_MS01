@@ -8,7 +8,7 @@
 #include <algorithm>
 
 const int Nx = 50;             // points intérieurs
-const int Ny = 50;
+const int Ny = 100;
 const double TOLERANCE = 1e-6;
 const int MAX_ITERATION = 10000;
 const double alpha = 0.5;

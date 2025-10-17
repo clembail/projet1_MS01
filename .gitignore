@@ -11,6 +11,9 @@ build*/
 # Ignorer le CMakeLists.txt
 CMakeLists.txt
 
+# Ignorer le fichier de test .numbers
+testCholesky.numbers
+
 # Rapport TeX
 rapport.pdf
 rapport.aux

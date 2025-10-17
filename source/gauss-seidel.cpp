@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 #include <fstream>
+#include <chrono>
 
 const int Nx = 50;       // Nombre de points intérieurs en x
 const int Ny = 50;       // Nombre de points intérieurs en y
