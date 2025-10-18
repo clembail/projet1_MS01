@@ -4,7 +4,7 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 
 a = 1.0
 b = 1.0
-Nx = 50
+Nx = 100
 Ny = 100
 data = "data_gauss-seidel_para.csv"
 

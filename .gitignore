@@ -11,6 +11,10 @@ build*/
 # Ignorer le CMakeLists.txt
 CMakeLists.txt
 
+# Ignorer les .zsh
+build.zsh
+run_local.zsh
+
 # Ignorer le fichier de test .numbers
 testCholesky.numbers
 

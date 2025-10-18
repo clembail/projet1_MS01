@@ -2,15 +2,15 @@
 
 #include <mpi.h>
 #include <iostream>
-#include <fstream>
+// #include <fstream>
 #include <vector>
 #include <cmath>
 #include <algorithm>
 
-const int Nx = 50;             // points intérieurs
-const int Ny = 50;
-const double TOLERANCE = 1e-6;
-const int MAX_ITERATION = 5000;
+const int Nx = 100;             // points intérieurs
+const int Ny = 100;
+const double TOLERANCE = 1e-5;
+const int MAX_ITERATION = 25000;
 const double alpha = 0.5;
 const double a = 1.0;
 const double b = 1.0;
@@ -129,9 +129,9 @@ int main(int argc, char** argv) {
 
     } while (global_diff > TOLERANCE && iteration < MAX_ITERATION);
 
-    if (rank == 0) {
-        std::cout << "A convergé en " << iteration << " itérations avec une erreur de " << global_diff << " avec " << size << " processus." << std::endl;
-    }
+    // if (rank == 0) {
+    //     std::cout << "A convergé en " << iteration << " itérations avec une erreur de " << global_diff << " avec " << size << " processus." << std::endl;
+    // }
 
     // ===============================================
     //   RASSEMBLEMENT AVEC MPI_GATHERV
@@ -169,28 +169,30 @@ int main(int argc, char** argv) {
                 u_global.data(), recvcounts.data(), displs.data(), MPI_DOUBLE,
                 0, MPI_COMM_WORLD);
 
-    // =========================
-    //   ÉCRITURE CSV
-    // =========================
+    // // =========================
+    // //   ÉCRITURE CSV
+    // // =========================
 
-    if (rank == 0) {
-        std::string pathData {"data_jacobi_para.csv"};
-        std::ofstream file(pathData);
-        for (int i = 0; i < nrows_global; ++i) {
-            for (int j = 0; j < ncols_global; ++j) {
-                file << u_global[i * ncols_global + j];
-                if (j < ncols_global - 1) file << ",";
-            }
-            file << "\n";
-        }
-        file.close();
-        std::cout << "Résultat écrit dans " + pathData << std::endl;
-    }
+    // if (rank == 0) {
+    //     std::string pathData {"data_jacobi_para.csv"};
+    //     std::ofstream file(pathData);
+    //     for (int i = 0; i < nrows_global; ++i) {
+    //         for (int j = 0; j < ncols_global; ++j) {
+    //             file << u_global[i * ncols_global + j];
+    //             if (j < ncols_global - 1) file << ",";
+    //         }
+    //         file << "\n";
+    //     }
+    //     file.close();
+    //     std::cout << "Résultat écrit dans " + pathData << std::endl;
+    // }
 
     MPI_Barrier(MPI_COMM_WORLD);
     double time2 = MPI_Wtime();
 
-    if(rank == 0) std::cout << "Duration: " << time2-time1 << "[s]" << std::endl;
+    if (rank == 0) {std::cout << "jacobi_para, " << Nx << ", " << size << ", " 
+              << time2-time1 << ", " << iteration << ", " 
+              << global_diff << std::endl;}
 
     MPI_Finalize();
     return 0;

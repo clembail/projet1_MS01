@@ -3,15 +3,15 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include <fstream>
+// #include <fstream>
 #include <chrono>
 
 using namespace std;
 
-const int Nx = 50;       // Nombre de points intérieurs en x
-const int Ny = 50;       // Nombre de points intérieurs en y
-const int maxIter = 5000;
-const double tol = 1e-6;
+const int Nx = 100;       // Nombre de points intérieurs en x
+const int Ny = 100;       // Nombre de points intérieurs en y
+const int maxIter = 25000;
+const double tol = 1e-5;
 const double alpha = 0.5;
 
 double V(double y){
@@ -59,7 +59,7 @@ int main() {
     double dy2 = dy * dy;
     double denom = 2.0 * (dx2 + dy2);
 
-    int iter = 0;
+    int iteration = 0;
     double error;
 
     do {
@@ -78,28 +78,30 @@ int main() {
         // Swap u and u_new
         u.swap(u_new);
 
-        iter++;
+        iteration++;
 
         // if (iter % 100 == 0)
         //     cout << "Iteration " << iter << ", error = " << error << endl;
 
-    } while (error > tol && iter < maxIter);
+    } while (error > tol && iteration < maxIter);
 
-    cout << "Converged after " << iter << " iterations with error = " << error << endl;
+    // cout << "Converged after " << iteration << " iterations with error = " << error << endl;
 
-    std::ofstream file("data_jacobi.csv");
-    for(int i = 0; i<=Nx+1 ; i++){
-        for(int j = 0; j<=Ny+1 ; j++){
-            file << u[i][j];
-            if (j < Ny + 1){ file << ",";}
-        }
-        file << "\n";
-    }
+    // std::ofstream file("data_jacobi.csv");
+    // for(int i = 0; i<=Nx+1 ; i++){
+    //     for(int j = 0; j<=Ny+1 ; j++){
+    //         file << u[i][j];
+    //         if (j < Ny + 1){ file << ",";}
+    //     }
+    //     file << "\n";
+    // }
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
 
-    std::cout << "Time difference = " << duration*0.000001 << "[s]" << std::endl;
+    std::cout << "jacobi_seq, " << Nx << ", 1, " 
+        << duration*0.000001 << ", " << iteration << ", " 
+        << error << std::endl;
 
     return 0;
 }

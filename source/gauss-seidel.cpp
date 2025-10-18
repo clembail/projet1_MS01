@@ -6,10 +6,10 @@
 #include <fstream>
 #include <chrono>
 
-const int Nx = 50;       // Nombre de points intérieurs en x
-const int Ny = 50;       // Nombre de points intérieurs en y
-const int maxIter = 5000;
-const double tol = 1e-6;
+const int Nx = 100;       // Nombre de points intérieurs en x
+const int Ny = 100;       // Nombre de points intérieurs en y
+const int maxIter = 25000;
+const double tol = 1e-5;
 const double alpha = 0.5;
 
 double V(double y){
@@ -54,11 +54,11 @@ int main() {
     // f(i,j) = 0 pour tout le domaine (Laplace homogène)
     std::vector<std::vector<double>> f(Nx + 2, std::vector<double>(Ny + 2, 0.0));
 
-    int iter = 0;
-    double diff;
+    int iteration = 0;
+    double error;
 
     do {
-        diff = 0.0;
+        error = 0.0;
 
         // Mise à jour selon Gauss-Seidel
         for (int i = 1; i <= Nx; ++i) {
@@ -66,16 +66,16 @@ int main() {
                 double old_u = u[i][j];
                 u[i][j] = ((u[i+1][j] + u[i-1][j]) * dy2 +
                                (u[i][j+1] + u[i][j-1]) * dx2 - f[i][j]*dx2*dy2) / denom;
-                diff = std::max(diff, std::fabs(u[i][j] - old_u));
+                error = std::max(error, std::fabs(u[i][j] - old_u));
             }
         }
 
-        ++iter;
-    } while (diff > tol && iter < maxIter);
+        ++iteration;
+    } while (error > tol && iteration < maxIter);
 
-    std::cout << "Convergence en " << iter << " iterations, avec diff = " << diff << "\n";
+    // std::cout << "Convergence en " << iteration << " iterations, avec erreur = " << error << "\n";
 
-    std::ofstream file("data_gauss_seidel.csv");
+    std::ofstream file("data_gauss-seidel.csv");
     for(int i = 0; i<=Nx+1 ; i++){
         for(int j = 0; j<=Ny+1 ; j++){
             file << u[i][j];
@@ -87,7 +87,9 @@ int main() {
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
 
-    std::cout << "Time difference = " << duration*0.000001 << "[s]" << std::endl;
+    std::cout << "gauss-seidel_seq, " << Nx << ", 1, " 
+        << duration*0.000001 << ", " << iteration << ", " 
+        << error << std::endl;
 
     return 0;
 }
