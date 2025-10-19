@@ -7,10 +7,10 @@
 #include <cmath>
 #include <algorithm>
 
-const int Nx = 100;             // points intérieurs
-const int Ny = 100;
-const double TOLERANCE = 1e-5;
-const int MAX_ITERATION = 25000;
+// const int Nx = 100;             // points intérieurs
+// const int Ny = 100;
+// const double TOLERANCE = 1e-5;
+// const int MAX_ITERATION = 25000;
 const double alpha = 0.5;
 const double a = 1.0;
 const double b = 1.0;
@@ -34,6 +34,22 @@ int main(int argc, char** argv) {
     int rank, size;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+        // --- DEBUT CHANGEMENT ---
+    if (argc != 5) {
+        // Pour MPI, n'imprimez que sur le rang 0
+        // if (rank == 0) {
+            std::cerr << "Usage: " << argv[0] << " <Nx> <Ny> <maxIter> <tolerance>" << std::endl;
+        // }
+        // MPI_Finalize();
+        return 1;
+    }
+
+    const int Nx = std::atoi(argv[1]);
+    const int Ny = std::atoi(argv[2]);
+    const int maxIter = std::atoi(argv[3]);
+    const double tol = std::atof(argv[4]);
+    // --- FIN CHANGEMENT ---
 
     const int nrows_global = Nx + 2;
     const int ncols_global = Ny + 2;

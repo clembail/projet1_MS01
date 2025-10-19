@@ -6,11 +6,11 @@
 #include <fstream>
 #include <chrono>
 
-const int Nx = 100;       // Nombre de points intérieurs en x
-const int Ny = 100;       // Nombre de points intérieurs en y
-const int maxIter = 25000;
-const double tol = 1e-5;
-const double alpha = 0.5;
+// const int Nx = 100;       // Nombre de points intérieurs en x
+// const int Ny = 100;       // Nombre de points intérieurs en y
+// const int maxIter = 25000;
+// const double tol = 1e-5;
+// const double alpha = 0.5;
 
 double V(double y){
     return (1 - cos(2*M_1_PI*y/1.0));
@@ -25,7 +25,24 @@ double u0(double x, double y) {
     return U0;
 }
 
-int main() {
+int main(int argc, char** argv) {
+
+    // --- DEBUT CHANGEMENT ---
+    if (argc != 5) {
+        // Pour MPI, n'imprimez que sur le rang 0
+        // if (rank == 0) {
+            std::cerr << "Usage: " << argv[0] << " <Nx> <Ny> <maxIter> <tolerance>" << std::endl;
+        // }
+        // MPI_Finalize();
+        return 1;
+    }
+
+    const int Nx = std::atoi(argv[1]);
+    const int Ny = std::atoi(argv[2]);
+    const int maxIter = std::atoi(argv[3]);
+    const double tol = std::atof(argv[4]);
+    // --- FIN CHANGEMENT ---
+
     double dx = 1.0 / (Nx + 1);
     double dy = 1.0 / (Ny + 1);
 
