@@ -190,9 +190,20 @@ int main(int argc, char** argv) {
     MPI_Barrier(MPI_COMM_WORLD);
     double time2 = MPI_Wtime();
 
-    if (rank == 0) {std::cout << "jacobi_para, " << Nx << ", " << size << ", " 
-              << time2-time1 << ", " << iteration << ", " 
-              << global_diff << std::endl;}
+    if (rank == 0) {
+        // --- DEBUT CHANGEMENT ---
+        // Ancien cout :
+        // std::cout << "gauss-seidel_para, " << Nx << ", " << size << ", " 
+        //           << time2-time1 << ", " << iteration << ", " 
+        //           << global_diff << std::endl;
+
+        // Nouveau cout (plus facile à parser) :
+        std::cout << "Temps: " << (time2 - time1) << std::endl;
+        std::cout << "Iterations: " << iteration << std::endl;
+        std::cout << "Error: " << global_diff << std::endl;
+        // --- FIN CHANGEMENT ---
+    }
+
 
     MPI_Finalize();
     return 0;

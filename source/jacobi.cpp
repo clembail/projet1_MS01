@@ -99,9 +99,17 @@ int main() {
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
 
-    std::cout << "jacobi_seq, " << Nx << ", 1, " 
-        << duration*0.000001 << ", " << iteration << ", " 
-        << error << std::endl;
+        // --- DEBUT CHANGEMENT ---
+    // Ancien cout :
+    // std::cout << "jacobi_seq, " << Nx << ", 1, " 
+    //     << duration*0.000001 << ", " << iteration << ", " 
+    //     << error << std::endl;
+
+    // Nouveau cout :
+    std::cout << "Temps: " << (duration * 0.000001) << std::endl;
+    std::cout << "Iterations: " << iteration << std::endl;
+    std::cout << "Error: " << error << std::endl;
+    // --- FIN CHANGEMENT ---
 
     return 0;
 }
