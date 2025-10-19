@@ -143,7 +143,7 @@ int main(int argc, char** argv) {
         std::swap(u, u_new);
         iteration++;
 
-    } while (global_diff > TOLERANCE && iteration < MAX_ITERATION);
+    } while (global_diff > tol && iteration < maxIter);
 
     // if (rank == 0) {
     //     std::cout << "A convergé en " << iteration << " itérations avec une erreur de " << global_diff << " avec " << size << " processus." << std::endl;

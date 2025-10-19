@@ -10,7 +10,7 @@
 // const int Ny = 100;       // Nombre de points intérieurs en y
 // const int maxIter = 25000;
 // const double tol = 1e-5;
-// const double alpha = 0.5;
+const double alpha = 0.5;
 
 double V(double y){
     return (1 - cos(2*M_1_PI*y/1.0));
