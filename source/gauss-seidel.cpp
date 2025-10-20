@@ -28,11 +28,7 @@ double u0(double x, double y) {
 int main(int argc, char** argv) {
 
     if (argc != 5) {
-        // Pour MPI, n'imprimez que sur le rang 0
-        // if (rank == 0) {
             std::cerr << "Usage: " << argv[0] << " <Nx> <Ny> <maxIter> <tolerance>" << std::endl;
-        // }
-        // MPI_Finalize();
         return 1;
     }
 
@@ -66,9 +62,6 @@ int main(int argc, char** argv) {
         u[Nx + 1][j] = u0(1, y);        // droite
     }
 
-    // f(i,j) = 0 pour tout le domaine (Laplace homogène)
-    std::vector<std::vector<double>> f(Nx + 2, std::vector<double>(Ny + 2, 0.0));
-
     int iteration = 0;
     double error;
 
@@ -80,39 +73,35 @@ int main(int argc, char** argv) {
             for (int j = 1; j <= Ny; ++j) {
                 double old_u = u[i][j];
                 u[i][j] = ((u[i+1][j] + u[i-1][j]) * dy2 +
-                               (u[i][j+1] + u[i][j-1]) * dx2 - f[i][j]*dx2*dy2) / denom;
+                               (u[i][j+1] + u[i][j-1]) * dx2) / denom;
                 error = std::max(error, std::fabs(u[i][j] - old_u));
             }
         }
 
         ++iteration;
+
+        // if (iter % 100 == 0)
+        //     cout << "Iteration " << iter << ", error = " << error << endl;
     } while (error > tol && iteration < maxIter);
 
-    // std::cout << "Convergence en " << iteration << " iterations, avec erreur = " << error << "\n";
 
-    // std::ofstream file("data_gauss-seidel.csv");
-    // for(int i = 0; i<=Nx+1 ; i++){
-    //     for(int j = 0; j<=Ny+1 ; j++){
-    //         file << u[i][j];
-    //         if (j < Ny + 1){ file << ",";}
-    //     }
-    //     file << "\n";
-    // }
+    // ÉCRITURE CSV
+    std::ofstream file("data_gauss-seidel.csv");
+    for(int i = 0; i<=Nx+1 ; i++){
+        for(int j = 0; j<=Ny+1 ; j++){
+            file << u[i][j];
+            if (j < Ny + 1){ file << ",";}
+        }
+        file << "\n";
+    }
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
 
-    // --- DEBUT CHANGEMENT ---
-    // Ancien cout :
-    // std::cout << "gauss-seidel_seq, " << Nx << ", 1, " 
-    //     << duration*0.000001 << ", " << iteration << ", " 
-    //     << error << std::endl;
-
-    // Nouveau cout :
     std::cout << "Temps: " << (duration * 0.000001) << std::endl;
     std::cout << "Iterations: " << iteration << std::endl;
     std::cout << "Error: " << error << std::endl;
-    // --- FIN CHANGEMENT ---
+
 
     return 0;
 }

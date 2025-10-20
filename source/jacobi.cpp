@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-// #include <fstream>
+#include <fstream>
 #include <chrono>
 
 using namespace std;
@@ -30,11 +30,7 @@ double u0(double x, double y) {
 int main(int argc, char** argv) {
 
     if (argc != 5) {
-        // Pour MPI, n'imprimez que sur le rang 0
-        // if (rank == 0) {
             std::cerr << "Usage: " << argv[0] << " <Nx> <Ny> <maxIter> <tolerance>" << std::endl;
-        // }
-        // MPI_Finalize();
         return 1;
     }
 
@@ -99,31 +95,23 @@ int main(int argc, char** argv) {
 
     } while (error > tol && iteration < maxIter);
 
-    // cout << "Converged after " << iteration << " iterations with error = " << error << endl;
 
-    // std::ofstream file("data_jacobi.csv");
-    // for(int i = 0; i<=Nx+1 ; i++){
-    //     for(int j = 0; j<=Ny+1 ; j++){
-    //         file << u[i][j];
-    //         if (j < Ny + 1){ file << ",";}
-    //     }
-    //     file << "\n";
-    // }
+    // ÉCRITURE CSV
+    std::ofstream file("data_jacobi.csv");
+    for(int i = 0; i<=Nx+1 ; i++){
+        for(int j = 0; j<=Ny+1 ; j++){
+            file << u[i][j];
+            if (j < Ny + 1){ file << ",";}
+        }
+        file << "\n";
+    }
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();
 
-        // --- DEBUT CHANGEMENT ---
-    // Ancien cout :
-    // std::cout << "jacobi_seq, " << Nx << ", 1, " 
-    //     << duration*0.000001 << ", " << iteration << ", " 
-    //     << error << std::endl;
-
-    // Nouveau cout :
     std::cout << "Temps: " << (duration * 0.000001) << std::endl;
     std::cout << "Iterations: " << iteration << std::endl;
     std::cout << "Error: " << error << std::endl;
-    // --- FIN CHANGEMENT ---
 
     return 0;
 }
