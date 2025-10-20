@@ -9,7 +9,6 @@ Ny = 100
 data = "data_gauss-seidel_para.csv"
 
 Z = np.loadtxt(data, delimiter=",")
-print(Z)
 
 y = np.linspace(0,b,Nx+2)
 x = np.linspace(0,a,Ny+2)
@@ -23,6 +22,6 @@ ax.plot_surface(X, Y, Z, cmap='viridis')
 
 ax.set_xlabel("x")
 ax.set_ylabel("y")
-ax.set_zlabel("f(x,y)")
+ax.set_zlabel("u(x,y)")
 
 plt.show()
