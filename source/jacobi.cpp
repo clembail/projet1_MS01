@@ -8,14 +8,14 @@
 
 using namespace std;
 
-// const int Nx = 100;       // Nombre de points intérieurs en x
-// const int Ny = 100;       // Nombre de points intérieurs en y
-// const int maxIter = 25000;
-// const double tol = 1e-5;
+// const int Nx = 800;       // Nombre de points intérieurs en x
+// const int Ny = 800;       // Nombre de points intérieurs en y
+// const int maxIter = 50000;
+// const double tol = 1e-4;
 const double alpha = 0.5;
 
 double V(double y){
-    return (1 - cos(2*M_1_PI*y/1.0));
+    return (1 - cos(2*M_PI*y/1.0));
 }
 
 double u0(double x, double y) {
@@ -29,7 +29,6 @@ double u0(double x, double y) {
 
 int main(int argc, char** argv) {
 
-        // --- DEBUT CHANGEMENT ---
     if (argc != 5) {
         // Pour MPI, n'imprimez que sur le rang 0
         // if (rank == 0) {
@@ -43,7 +42,6 @@ int main(int argc, char** argv) {
     const int Ny = std::atoi(argv[2]);
     const int maxIter = std::atoi(argv[3]);
     const double tol = std::atof(argv[4]);
-    // --- FIN CHANGEMENT ---
 
     double dx = 1.0 / (Nx + 1);
     double dy = 1.0 / (Ny + 1);

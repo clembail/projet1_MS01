@@ -16,7 +16,7 @@ const double a = 1.0;
 const double b = 1.0;
 
 double V(double y){
-    return (1 - cos(2*M_1_PI*y/b));
+    return (1 - cos(2*M_PI*y/b));
 }
 
 double u0(double x, double y) {
@@ -110,15 +110,21 @@ int main(int argc, char** argv) {
     double global_diff;
 
     do {
-        // 1. ÉCHANGE DES LIGNES FANTÔMES
-        if (rank > 0) {
-            MPI_Send(&u[idx(start_idx_loc, 0)], ncols_global, MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD);
-            MPI_Recv(&u[idx(0, 0)], ncols_global, MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        }
-        if (rank < size - 1) {
-            MPI_Send(&u[idx(start_idx_loc + nloc - 1, 0)], ncols_global, MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD);
-            MPI_Recv(&u[idx(start_idx_loc + nloc, 0)], ncols_global, MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        }
+        // Définir les voisins, MPI_PROC_NULL gère les bords
+        int rank_up = (rank > 0) ? rank - 1 : MPI_PROC_NULL;
+        int rank_down = (rank < size - 1) ? rank + 1 : MPI_PROC_NULL;
+
+        // 1. ÉCHANGE DES LIGNES FANTÔMES (Corrigé avec MPI_Sendrecv)
+        MPI_Sendrecv(
+            &u[idx(start_idx_loc, 0)], ncols_global, MPI_DOUBLE, rank_up, 0,
+            &u[idx(0, 0)], ncols_global, MPI_DOUBLE, rank_up, 0,
+            MPI_COMM_WORLD, MPI_STATUS_IGNORE
+        );
+        MPI_Sendrecv(
+            &u[idx(start_idx_loc + nloc - 1, 0)], ncols_global, MPI_DOUBLE, rank_down, 0,
+            &u[idx(start_idx_loc + nloc, 0)], ncols_global, MPI_DOUBLE, rank_down, 0,
+            MPI_COMM_WORLD, MPI_STATUS_IGNORE
+        );
 
         // 2. MISE A JOUR DES BOULES ROUGES
         double local_diff = 0.0;
@@ -139,18 +145,20 @@ int main(int argc, char** argv) {
             }
         }
 
-        // 3. COMMUNICATION DE LA MISE A JOUR DES BOULES ROUGES
-        if (rank > 0) {
-            MPI_Send(&u[idx(start_idx_loc, 0)], ncols_global, MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD);
-            MPI_Recv(&u[idx(0, 0)], ncols_global, MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        }
-        if (rank < size - 1) {
-            MPI_Send(&u[idx(start_idx_loc + nloc - 1, 0)], ncols_global, MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD);
-            MPI_Recv(&u[idx(start_idx_loc + nloc, 0)], ncols_global, MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        }
+        // 3. COMMUNICATION DE LA MISE A JOUR (Corrigé avec MPI_Sendrecv)
+        MPI_Sendrecv(
+            &u[idx(start_idx_loc, 0)], ncols_global, MPI_DOUBLE, rank_up, 0,
+            &u[idx(0, 0)], ncols_global, MPI_DOUBLE, rank_up, 0,
+            MPI_COMM_WORLD, MPI_STATUS_IGNORE
+        );
+        MPI_Sendrecv(
+            &u[idx(start_idx_loc + nloc - 1, 0)], ncols_global, MPI_DOUBLE, rank_down, 0,
+            &u[idx(start_idx_loc + nloc, 0)], ncols_global, MPI_DOUBLE, rank_down, 0,
+            MPI_COMM_WORLD, MPI_STATUS_IGNORE
+        );
 
-        // 2. MISE A JOUR DES BOULES NOIRES
 
+        // 4. MISE A JOUR DES BOULES NOIRES
         for (int i = i_start; i < i_end; ++i) {
             for (int j = 1; j <= Ny; ++j) {
                 if ((i+j)%2==1){
