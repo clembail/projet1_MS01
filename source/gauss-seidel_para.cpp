@@ -169,6 +169,11 @@ int main(int argc, char** argv) {
         MPI_Allreduce(&local_diff, &global_diff, 1, MPI_DOUBLE, MPI_MAX, MPI_COMM_WORLD);
         iteration++;
 
+        // if (rank==0){
+        //     if (iteration % 1000 == 0)
+        //     std::cout << "Iteration " << iteration << ", error = " << global_diff << std::endl;
+        // }
+
     } while (global_diff > tol && iteration < maxIter);
 
 
@@ -205,20 +210,20 @@ int main(int argc, char** argv) {
                 0, MPI_COMM_WORLD);
 
 
-    //  ÉCRITURE CSV //
-    if (rank == 0) {
-        std::string pathData {"data_gauss-seidel_para.csv"};
-        std::ofstream file(pathData);
-        for (int i = 0; i < nrows_global; ++i) {
-            for (int j = 0; j < ncols_global; ++j) {
-                file << u_global[i * ncols_global + j];
-                if (j < ncols_global - 1) file << ",";
-            }
-            file << "\n";
-        }
-        file.close();
-        std::cout << "Résultat écrit dans " + pathData << std::endl;
-    }
+    // //  ÉCRITURE CSV //
+    // if (rank == 0) {
+    //     std::string pathData {"data_gauss-seidel_para.csv"};
+    //     std::ofstream file(pathData);
+    //     for (int i = 0; i < nrows_global; ++i) {
+    //         for (int j = 0; j < ncols_global; ++j) {
+    //             file << u_global[i * ncols_global + j];
+    //             if (j < ncols_global - 1) file << ",";
+    //         }
+    //         file << "\n";
+    //     }
+    //     file.close();
+    //     std::cout << "Résultat écrit dans " + pathData << std::endl;
+    // }
 
     MPI_Barrier(MPI_COMM_WORLD);
     double time2 = MPI_Wtime();

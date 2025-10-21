@@ -80,20 +80,21 @@ int main(int argc, char** argv) {
 
         ++iteration;
 
-        // if (iter % 100 == 0)
-        //     cout << "Iteration " << iter << ", error = " << error << endl;
+        // if (iteration % 1000 == 0)
+        //     std::cout << "Iteration " << iteration << ", error = " << error << std::endl;
+
     } while (error > tol && iteration < maxIter);
 
 
-    // ÉCRITURE CSV
-    std::ofstream file("data_gauss-seidel.csv");
-    for(int i = 0; i<=Nx+1 ; i++){
-        for(int j = 0; j<=Ny+1 ; j++){
-            file << u[i][j];
-            if (j < Ny + 1){ file << ",";}
-        }
-        file << "\n";
-    }
+    // // ÉCRITURE CSV
+    // std::ofstream file("data_gauss-seidel.csv");
+    // for(int i = 0; i<=Nx+1 ; i++){
+    //     for(int j = 0; j<=Ny+1 ; j++){
+    //         file << u[i][j];
+    //         if (j < Ny + 1){ file << ",";}
+    //     }
+    //     file << "\n";
+    // }
 
     std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::microseconds>(end - begin).count();

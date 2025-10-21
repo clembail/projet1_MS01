@@ -150,11 +150,12 @@ int main(int argc, char** argv) {
         std::swap(u, u_new);
         iteration++;
 
-    } while (global_diff > tol && iteration < maxIter);
+        // if (rank==0){
+        //     if (iteration % 1000 == 0)
+        //     std::cout << "Iteration " << iteration << ", error = " << global_diff << std::endl;
+        // }
 
-    // ===============================================
-    //   RASSEMBLEMENT AVEC MPI_GATHERV
-    // ===============================================
+    } while (global_diff > tol && iteration < maxIter);
 
     // Chaque processus prépare ses données (sans lignes fantômes)
     std::vector<double> u_send(nloc * ncols_global);
@@ -188,21 +189,20 @@ int main(int argc, char** argv) {
                 u_global.data(), recvcounts.data(), displs.data(), MPI_DOUBLE,
                 0, MPI_COMM_WORLD);
 
-    // ÉCRITURE CSV
-
-    if (rank == 0) {
-        std::string pathData {"data_jacobi_para.csv"};
-        std::ofstream file(pathData);
-        for (int i = 0; i < nrows_global; ++i) {
-            for (int j = 0; j < ncols_global; ++j) {
-                file << u_global[i * ncols_global + j];
-                if (j < ncols_global - 1) file << ",";
-            }
-            file << "\n";
-        }
-        file.close();
-        std::cout << "Résultat écrit dans " + pathData << std::endl;
-    }
+    // // ÉCRITURE CSV
+    // if (rank == 0) {
+    //     std::string pathData {"data_jacobi_para.csv"};
+    //     std::ofstream file(pathData);
+    //     for (int i = 0; i < nrows_global; ++i) {
+    //         for (int j = 0; j < ncols_global; ++j) {
+    //             file << u_global[i * ncols_global + j];
+    //             if (j < ncols_global - 1) file << ",";
+    //         }
+    //         file << "\n";
+    //     }
+    //     file.close();
+    //     std::cout << "Résultat écrit dans " + pathData << std::endl;
+    // }
 
     MPI_Barrier(MPI_COMM_WORLD);
     double time2 = MPI_Wtime();
