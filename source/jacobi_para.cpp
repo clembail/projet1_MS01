@@ -191,7 +191,7 @@ int main(int argc, char** argv) {
 
     // // ÉCRITURE CSV
     // if (rank == 0) {
-    //     std::string pathData {"data_jacobi_para.csv"};
+    //     std::string pathData {"data/data_jacobi_para.csv"};
     //     std::ofstream file(pathData);
     //     for (int i = 0; i < nrows_global; ++i) {
     //         for (int j = 0; j < ncols_global; ++j) {

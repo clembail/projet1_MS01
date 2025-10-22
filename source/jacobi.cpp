@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
 
 
     // // ÉCRITURE CSV
-    // std::ofstream file("data_jacobi.csv");
+    // std::ofstream file("data/data_jacobi.csv");
     // for(int i = 0; i<=Nx+1 ; i++){
     //     for(int j = 0; j<=Ny+1 ; j++){
     //         file << u[i][j];

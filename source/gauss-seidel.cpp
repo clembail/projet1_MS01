@@ -87,7 +87,7 @@ int main(int argc, char** argv) {
 
 
     // // ÉCRITURE CSV
-    // std::ofstream file("data_gauss-seidel.csv");
+    // std::ofstream file("data/data_gauss-seidel.csv");
     // for(int i = 0; i<=Nx+1 ; i++){
     //     for(int j = 0; j<=Ny+1 ; j++){
     //         file << u[i][j];
