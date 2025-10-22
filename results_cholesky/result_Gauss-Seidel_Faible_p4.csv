@@ -1,0 +1,2 @@
+Methode,Version,Test_Type,Nx,Ny,Processus_p,Temps_s,Iterations,Erreur_Finale
+Gauss-Seidel,Parallele,Faible,256,256,4,42.9104,68835,9.9992e-09

@@ -1,0 +1,2 @@
+Methode,Version,Test_Type,Nx,Ny,Processus_p,Temps_s,Iterations,Erreur_Finale
+Jacobi,Parallele,Faible,2048,256,32,773.74,1000000,4.32515e-07
