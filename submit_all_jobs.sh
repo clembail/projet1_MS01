@@ -18,12 +18,12 @@ G_PAR_RB="./buildClem/gauss-seidel_para"
 P_VALUES="2 4 8 16 32 64 128" # Liste des 'p' à tester
 
 # Scalabilité Forte
-NX_STRONG=2048
-NY_STRONG=2048
+NX_STRONG=300
+NY_STRONG=300
 
 # Scalabilité Faible
-NY_WEAK=2048
-NX_PER_PROC_WEAK=256
+NY_WEAK=300
+NX_PER_PROC_WEAK=64
 
 # --- Soumission des jobs ---
 
