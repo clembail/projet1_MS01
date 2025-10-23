@@ -121,7 +121,7 @@ Il est intéressant de remarquer qu'après avoir effectué des tests sur différ
 \section{Parallélisation du code : Gauss-Seidel}
 
 
-Nous avons parallélisé le code de Gauss-Seidel en utilisant la méthode dites "Rouge/Noir", qui consiste, en plus des bandes comme pour Jacobi, à découper le domaine en deux partie indépendante dans la boucle for (une partie "Rouge" et une partie "Noire"). Bien que les différents tests ont montré que généralement Gauss-Seidel convergeait en moins d'itérations que Jacobi (idéalement 2x moins), la scalabilité forte de cette méthode est moins bonne que celle de Jacobi, notamment à cause d'un plus grand nombre de communications avec la méthode de parallélisation employée. Le graphique suivant montre les résultats obtenus pour la méthode de Gauss-Seidel et compare avec la scalabilité forte de Jacobi :
+Nous avons parallélisé le code de Gauss-Seidel en utilisant la méthode dites "Rouge/Noir", qui consiste, en plus des bandes comme pour Jacobi, à découper le domaine en deux parties indépendantes dans la boucle for (une partie "Rouge" et une partie "Noire"). Bien que les différents tests aient montré que généralement Gauss-Seidel convergeait en moins d'itérations que Jacobi (idéalement 2x moins), la scalabilité forte de cette méthode est moins bonne que celle de Jacobi, notamment à cause d'un plus grand nombre de communications avec la méthode de parallélisation employée. Le graphique suivant montre les résultats obtenus pour la méthode de Gauss-Seidel et compare avec la scalabilité forte de Jacobi :
 
 \begin{figure}[H]
     \centering
@@ -134,7 +134,7 @@ Nous avons parallélisé le code de Gauss-Seidel en utilisant la méthode dites 
 \section{Tests avec Cholesky}
 
 
-Pour les tests sur le mésocentre Cholesky, dans un premier temps, nous avons testé la scalabilité forte pour une tolérance de $10^{-8}$, et sur un domaine fixe de $256\times 256$. Pour la scalabilité faible, nous avons augmenté progressivement la taille du domaine, en passant de $64\times 256$ à $256\times 256$. Les Figures \ref{fig:strongCholeskySmol} et \ref{fig:weakCholeskySmol} montrent les deux scalabilités avec les données obtenus.
+Pour les tests sur le mésocentre Cholesky, dans un premier temps, nous avons testé la scalabilité forte pour une tolérance de $10^{-8}$, et sur un domaine fixe de $256\times 256$. Pour la scalabilité faible, nous avons augmenté progressivement la taille du domaine, en passant de $64\times 256$ à $256\times 256$. Les Figures \ref{fig:strongCholeskySmol} et \ref{fig:weakCholeskySmol} montrent les deux scalabilités avec les données obtenues.
 
 \begin{figure}[H]
     \centering
@@ -152,7 +152,7 @@ Pour les tests sur le mésocentre Cholesky, dans un premier temps, nous avons te
 
 Pour le speedup, on observe bien une augmentation quasi linéaire en fonction du nombre de processus (mais qui ne l'est pas parfaitement à cause du temps pris par les communications MPI). On note le déclin autour de $20$ processus, lié au fait que chaque noeud utilisé sur Cholesky possède $20$ coeurs. L'efficacité quant à elle, reste relativement proche de $1$ jusqu'à $20$ processus, sans l'être parfaitement à cause des communications, après quoi elle dégringole.
 
-Dans un second temps, nous avons voulu mesurer la scalabilité faible, mais avec des domaines beaucoup plus grand: nous sommes parti d'un domaine $64\times 256$, et sommes monté progressivement jusqu'à $4096\times 256$. Malheureusement, les résultats étaient au départ très peu concluants en raison du nombre d'itérations qui explose, et qui rend l'efficacité caduque (cf Figure \ref{fig:weakCholeskyBigDom}). Nous avons donc refait une poignées de tests, en fixant cette fois-ci le nombre d'itérations maximal à $50000$. La méthode ne converge pas (et est même parfois assez loin de la tolérance fixée), mais l'efficacité est beaucoup plus proche de $1$ (avec une décroissance attendue lorsque qu'on augmente le nombre de processus, et une chute notable passé les 20 processus, cf Figure \ref{fig:weakCholeskyBigIt}).
+Dans un second temps, nous avons voulu mesurer la scalabilité faible, mais avec des domaines beaucoup plus grands: nous sommes parti d'un domaine $64\times 256$, et sommes monté progressivement jusqu'à $4096\times 256$. Malheureusement, les résultats étaient au départ très peu concluants en raison du nombre d'itérations qui explose, et qui rend l'efficacité caduque (cf Figure \ref{fig:weakCholeskyBigDom}). Nous avons donc refait une poignée de tests, en fixant cette fois-ci le nombre d'itérations maximal à $50000$. La méthode ne converge pas (et est même parfois assez loin de la tolérance fixée), mais l'efficacité est beaucoup plus proche de $1$ (avec une décroissance attendue lorsque qu'on augmente le nombre de processus, et une chute notable passé les 20 processus, cf Figure \ref{fig:weakCholeskyBigIt}).
 
 \begin{figure}[H]
     \centering
@@ -172,7 +172,7 @@ Dans un second temps, nous avons voulu mesurer la scalabilité faible, mais avec
 
 Ce rapport compare les méthodes de Jacobi et Gauss-Seidel (GS) pour résoudre l'équation de Laplace, en séquentiel puis en parallèle avec MPI sur le cluster Cholesky.
 
-En séquentiel, bien que Gauss-Seidel converge en deux fois moins d'itérations, l'étude de la complexité montre que Jacobi (pente 1.15) a une meilleure scalabilité que GS (pente 1.28). Ceci pourrait être dû aux opérations effectuées dans chacune des boucles, avec dans la méthode de Jacobi l'utilisation de l'itération précédente déjà entièrement calculée, et dans celle de Gauss-Seidel l'utilisation de valeur qui vienne d'être mise-à-jour.
+En séquentiel, bien que Gauss-Seidel converge en deux fois moins d'itérations, l'étude de la complexité montre que Jacobi (pente 1.15) a une meilleure scalabilité que GS (pente 1.28). Ceci pourrait être dû aux opérations effectuées dans chacune des boucles, avec dans la méthode de Jacobi l'utilisation de l'itération précédente déjà entièrement calculée, et dans celle de Gauss-Seidel l'utilisation de valeur qui vienne d'être mise à jour.
 
 En parallèle, Jacobi (découpage en bandes) montre une meilleure scalabilité forte que GS (méthode Rouge/Noir), puisque recquiert moins d'opérations de communications. Sur Cholesky, le speedup est quasi-linéaire jusqu'à 20 cœurs (limite du nœud), mais la scalabilité faible n'est validée qu'en fixant le nombre d'itérations (et donc en compromettant la convergence).
 
