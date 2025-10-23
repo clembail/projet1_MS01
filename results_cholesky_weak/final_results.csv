@@ -1,0 +1,13 @@
+Methode,Version,Test_Type,Nx,Ny,Processus_p,Temps_s,Iterations,Erreur_Finale
+GS,Parallele,Faible,64,256,1,25.7393,38736,9.99967e-09
+GS,Parallele,Faible,256,256,4,30.3263,50000,5.696e-06
+GS,Parallele,Faible,1024,256,16,38.0291,50000,1.27983e-05
+GS,Parallele,Faible,1280,256,20,41.664,50000,1.06199e-05
+GS,Parallele,Faible,2048,256,32,41.5066,50000,9.17743e-06
+GS,Parallele,Faible,4096,256,64,44.9077,50000,9.42271e-06
+Jacobi,Parallele,Faible,64,256,1,25.5427,50000,2.36834e-07
+Jacobi,Parallele,Faible,256,256,4,27.1521,50000,3.37083e-06
+Jacobi,Parallele,Faible,1024,256,16,30.6172,50000,9.88289e-06
+Jacobi,Parallele,Faible,1280,256,20,37.7502,50000,9.41365e-06
+Jacobi,Parallele,Faible,2048,256,32,38.332,50000,9.17996e-06
+Jacobi,Parallele,Faible,4096,256,64,41.1085,50000,9.54104e-06
