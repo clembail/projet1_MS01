@@ -16,13 +16,16 @@ build.zsh
 run_local.zsh
 run_benchmarks.zsh
 
-# Ignorer le fichier de test .numbers
-testCholesky.numbers
+# Ignorer le fichier de test .numbers et result*.csv
+resultsCholeskySmol.numbers
+result_*.csv
 
 # Rapport TeX
-rapport.pdf
 rapport.aux
 rapport.fdb_latexmk
 rapport.fls
 rapport.log
 rapport.synctex.gz
+
+#tracé complexité
+complexite.py
