@@ -44,25 +44,30 @@ int main(int argc, char** argv) {
 
     std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
 
-    // Matrices pour les itérations de Jacobi
-    vector<vector<double>> u(Nx + 2, vector<double>(Ny + 2, 0.0));
-    vector<vector<double>> u_new(Nx + 2, vector<double>(Ny + 2, 0.0));
+    const int largeur = Ny + 2; 
+    auto idx = [largeur](int i, int j) {
+        return i * largeur + j;
+    };
 
-    // Initialiser les conditions au bord
+    const int size = (Nx + 2) * (Ny + 2);
+    vector<double> u(size, 0.0);
+    vector<double> u_new(size, 0.0);
+
+    // Initialiser les conditions au bord avec la fonction idx
     for (int i = 0; i <= Nx + 1; ++i) {
         double x = i * dx;
-        u[i][0] = u0(x, 0);             // bas
-        u[i][Ny + 1] = u0(x, 1);        // haut
-        u_new[i][0] = u[i][0];
-        u_new[i][Ny + 1] = u[i][Ny + 1];
+        u[idx(i, 0)] = u0(x, 0);             // bas
+        u[idx(i, Ny + 1)] = u0(x, 1);        // haut
+        u_new[idx(i, 0)] = u[idx(i, 0)];
+        u_new[idx(i, Ny + 1)] = u[idx(i, Ny + 1)];
     }
 
     for (int j = 0; j <= Ny + 1; ++j) {
         double y = j * dy;
-        u[0][j] = u0(0, y);             // gauche
-        u[Nx + 1][j] = u0(1, y);        // droite
-        u_new[0][j] = u[0][j];
-        u_new[Nx + 1][j] = u[Nx + 1][j];
+        u[idx(0, j)] = u0(0, y);             // gauche
+        u[idx(Nx + 1, j)] = u0(1, y);        // droite
+        u_new[idx(0, j)] = u[idx(0, j)];
+        u_new[idx(Nx + 1, j)] = u[idx(Nx + 1, j)];
     }
 
     double dx2 = dx * dx;
@@ -75,23 +80,20 @@ int main(int argc, char** argv) {
     do {
         error = 0.0;
 
-        // Jacobi iteration: update interior points
         for (int i = 1; i <= Nx; ++i) {
             for (int j = 1; j <= Ny; ++j) {
-                u_new[i][j] = ((u[i+1][j] + u[i-1][j]) * dy2 +
-                               (u[i][j+1] + u[i][j-1]) * dx2) / denom;
+                int k = idx(i, j); 
 
-                error = max(error, fabs(u_new[i][j] - u[i][j]));
+                u_new[k] = ((u[k + largeur] + u[k - largeur]) * dy2 +
+                            (u[k + 1]    + u[k - 1])    * dx2) / denom;
+
+                error = max(error, fabs(u_new[k] - u[k]));
             }
         }
 
-        // Swap u and u_new
         u.swap(u_new);
 
         iteration++;
-
-        // if (iteration % 1000 == 0)
-        //     cout << "Iteration " << iteration << ", error = " << error << endl;
 
     } while (error > tol && iteration < maxIter);
 

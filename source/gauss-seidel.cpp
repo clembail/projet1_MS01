@@ -46,20 +46,25 @@ int main(int argc, char** argv) {
     double dy2 = dy * dy;
     double denom = 2.0 * (dx2 + dy2);
 
-    // Création d'une grille Nx * Ny avec les bords
-    std::vector<std::vector<double>> u(Nx + 2, std::vector<double>(Ny + 2, 0.0));
+    const int largeur = Ny + 2; 
+    auto idx = [largeur](int i, int j) {
+        return i * largeur + j;
+    };
+
+    const int size = (Nx + 2) * (Ny + 2);
+    std::vector<double> u(size, 0.0);
 
     // Condition au bord :
     for (int i = 0; i <= Nx + 1; ++i) {
         double x = i * dx;
-        u[i][0] = u0(x, 0);             // bas
-        u[i][Ny + 1] = u0(x, 1);        // haut
+        u[idx(i, 0)] = u0(x, 0);             // bas
+        u[idx(i, Ny + 1)] = u0(x, 1);        // haut
     }
 
     for (int j = 0; j <= Ny + 1; ++j) {
         double y = j * dy;
-        u[0][j] = u0(0, y);             // gauche
-        u[Nx + 1][j] = u0(1, y);        // droite
+        u[idx(0, j)] = u0(0, y);             // gauche
+        u[idx(Nx + 1, j)] = u0(1, y);        // droite
     }
 
     int iteration = 0;
@@ -68,20 +73,20 @@ int main(int argc, char** argv) {
     do {
         error = 0.0;
 
-        // Mise à jour selon Gauss-Seidel
         for (int i = 1; i <= Nx; ++i) {
             for (int j = 1; j <= Ny; ++j) {
-                double old_u = u[i][j];
-                u[i][j] = ((u[i+1][j] + u[i-1][j]) * dy2 +
-                               (u[i][j+1] + u[i][j-1]) * dx2) / denom;
-                error = std::max(error, std::fabs(u[i][j] - old_u));
+                int k = idx(i, j); // Position 1D de (i, j)
+
+                double old_u = u[k];
+
+                u[k] = ((u[k + largeur] + u[k - largeur]) * dy2 +
+                        (u[k + 1]    + u[k - 1])    * dx2) / denom;
+
+                error = std::max(error, std::fabs(u[k] - old_u));
             }
         }
 
         ++iteration;
-
-        // if (iteration % 1000 == 0)
-        //     std::cout << "Iteration " << iteration << ", error = " << error << std::endl;
 
     } while (error > tol && iteration < maxIter);
 
