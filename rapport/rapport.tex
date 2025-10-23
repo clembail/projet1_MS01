@@ -172,7 +172,7 @@ Dans un second temps, nous avons voulu mesurer la scalabilité faible, mais avec
 
 Ce rapport compare les méthodes de Jacobi et Gauss-Seidel (GS) pour résoudre l'équation de Laplace, en séquentiel puis en parallèle avec MPI sur le cluster Cholesky.
 
-En séquentiel, bien que Gauss-Seidel converge en deux fois moins d'itérations, l'étude de la complexité montre que Jacobi (pente 1.15) a une meilleure scalabilité que GS (pente 1.28). Ceci pourrait être dû aux opérations effectuées dans chacune des boucles, avec dans la méthode de Jacobi l'utilisation de l'itération précédente déjà entièrement calculée, et dans celle de Gauss-Seidel l'utilisation de valeur qui vienne d'être mise à jour.
+En séquentiel, bien que Gauss-Seidel converge en deux fois moins d'itérations, l'étude de la complexité montre que Jacobi (pente 1.15) a une meilleure scalabilité que GS (pente 1.28). Ceci pourrait être dû aux opérations effectuées dans chacune des boucles, avec dans la méthode de Jacobi l'utilisation de l'itération précédente déjà entièrement calculée, et dans celle de Gauss-Seidel l'utilisation de valeurs qui viennent d'être mises à jour.
 
 En parallèle, Jacobi (découpage en bandes) montre une meilleure scalabilité forte que GS (méthode Rouge/Noir), puisque recquiert moins d'opérations de communications. Sur Cholesky, le speedup est quasi-linéaire jusqu'à 20 cœurs (limite du nœud), mais la scalabilité faible n'est validée qu'en fixant le nombre d'itérations (et donc en compromettant la convergence).
 
